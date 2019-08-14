@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+
+	<frontend>
+
+    <routers>
+        <fanplayrsocialcoupons>
+            <use>standard</use>
+            <args>
+                <module>Fanplayr_Socialcoupons</module>
+                <frontName>fanplayr</frontName>
+            </args>
+        </fanplayrsocialcoupons>
+    </routers>
+
+    <translate>
+      <modules>
+        <Fanplayr_Socialcoupons>
+          <files>
+            <default>Fanplayr_Socialcoupons.csv</default>
+          </files>
+        </Fanplayr_Socialcoupons>
+      </modules>
+    </translate>
+
+		<events>
+
+			<!-- general embed -->
+			<controller_action_layout_generate_blocks_after>
+				<observers>
+					<fanplayr_socialcoupons_model_embedobserver>
+						<type>singleton</type>
+						<class>Fanplayr_Socialcoupons_Model_EmbedObserver</class>
+						<method>getEmbedAction</method>
+					</fanplayr_socialcoupons_model_embedobserver>
+				</observers>
+			</controller_action_layout_generate_blocks_after>
+
+			<!-- replaces deputized coupons -->
+			<http_response_send_before>
+				<observers>
+					<fanplayr_socialcoupons_model_embedobserver_dep>
+						<type>singleton</type>
+						<class>Fanplayr_Socialcoupons_Model_EmbedObserver</class>
+						<method>deputizeReplaceAction</method>
+					</fanplayr_socialcoupons_model_embedobserver_dep>
+				</observers>
+			</http_response_send_before>
+
+			<!-- catches deputized coupon in input before it is sent to backend -->
+			<controller_action_predispatch>
+				<observers>
+					<fanplayr_socialcoupons_model_embedobserver_depint>
+						<type>singleton</type>
+						<class>Fanplayr_Socialcoupons_Model_EmbedObserver</class>
+						<method>deputizeInputAction</method>
+					</fanplayr_socialcoupons_model_embedobserver_depint>
+				</observers>
+			</controller_action_predispatch>
+
+			<!-- catches adding of a product to the cart so we can add a coupon that we earlier tried to apply when there was no products -->
+			<checkout_cart_add_product_complete>
+				<observers>
+					<fanplayr_socialcoupons_model_cartobserver>
+						<type>singleton</type>
+						<class>Fanplayr_Socialcoupons_Model_CartObserver</class>
+						<method>checkSavedCouponAction</method>
+					</fanplayr_socialcoupons_model_cartobserver>
+				</observers>
+			</checkout_cart_add_product_complete>
+
+			<!-- catch adding to quote: save cart details for quick lookup -->
+      <checkout_cart_add_product_complete>
+				<observers>
+					<fanplayr_socialcoupons_model_additemobserver>
+						<type>singleton</type>
+						<class>Fanplayr_Socialcoupons_Model_EmbedObserver</class>
+						<method>checkQuoteAddAction</method>
+					</fanplayr_socialcoupons_model_additemobserver>
+				</observers>
+			</checkout_cart_add_product_complete>
+
+			<!-- catch removing from quote: save cart details for quick lookup -->
+			<sales_quote_remove_item>
+				<observers>
+					<fanplayr_socialcoupons_model_removeitemobserver>
+						<type>singleton</type>
+						<class>Fanplayr_Socialcoupons_Model_EmbedObserver</class>
+						<method>checkQuoteRemoveAction</method>
+					</fanplayr_socialcoupons_model_removeitemobserver>
+				</observers>
+			</sales_quote_remove_item>
+
+			<!-- catch updating cart qty: save cart details for quick lookup -->
+			<sales_quote_item_qty_set_after>
+				<observers>
+					<fanplayr_socialcoupons_model_updateqtyobserver>
+						<type>singleton</type>
+						<class>Fanplayr_Socialcoupons_Model_EmbedObserver</class>
+						<method>checkQuoteUpdateQtyAction</method>
+					</fanplayr_socialcoupons_model_updateqtyobserver>
+				</observers>
+			</sales_quote_item_qty_set_after>
+
+			<!-- checkout success -->
+			<checkout_onepage_controller_success_action>
+				<observers>
+					<fanplayr_socialcoupons_model_orderobserver>
+						<type>singleton</type>
+						<class>Fanplayr_Socialcoupons_Model_OrderObserver</class>
+						<method>checkSuccessSingle</method>
+					</fanplayr_socialcoupons_model_orderobserver>
+				</observers>
+			</checkout_onepage_controller_success_action>
+
+			<!-- checkout (multi shipping) success -->
+			<checkout_multishipping_controller_success_action>
+				<observers>
+					<fanplayr_socialcoupons_model_orderobserver_multi>
+						<type>singleton</type>
+						<class>Fanplayr_Socialcoupons_Model_OrderObserver</class>
+						<method>checkSuccessMulti</method>
+					</fanplayr_socialcoupons_model_orderobserver_multi>
+				</observers>
+			</checkout_multishipping_controller_success_action>
+
+      <!--Order: after create, before payment -->
+      <sales_order_place_after>
+        <observers>
+          <fanplayr_socialcoupons_model_orderobserver_beforepay>
+            <type>singleton</type>
+            <class>Fanplayr_Socialcoupons_Model_OrderObserver</class>
+            <method>serverToServerTrackingBeforePayment</method>
+          </fanplayr_socialcoupons_model_orderobserver_beforepay>
+        </observers>
+      </sales_order_place_after>
+
+      <!--Order: after payment -->
+      <sales_order_invoice_save_commit_after>
+        <observers>
+          <fanplayr_socialcoupons_model_orderobserver_afterepay>
+            <type>singleton</type>
+            <class>Fanplayr_Socialcoupons_Model_OrderObserver</class>
+            <method>serverToServerTrackingAfterPayment</method>
+          </fanplayr_socialcoupons_model_orderobserver_afterepay>
+        </observers>
+      </sales_order_invoice_save_commit_after>
+
+		</events>
+
+  </frontend>
+
+	<adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                            	<config>
+                                	<children>
+                                    	<fanplayrsocialcoupons>
+                                        	<title>Fanplayr</title>
+                                    	</fanplayrsocialcoupons>
+                                	</children>
+                            	</config>
+                            </children>
+                        </system>
+					</children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+</config>

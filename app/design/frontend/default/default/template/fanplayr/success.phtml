@@ -1,0 +1,158 @@
+<?php
+	if ( !function_exists('fanplayr_qr') ){
+		function fanplayr_qr($s){
+			return str_replace("'", "\'", $s);
+		}
+	}
+
+	if ($data && $data['embedType'] != 6 && $data['embedType'] != 7){
+?><script>
+	(function(d, w, s) {
+		if ( !w.fp_sales_orders ) {
+      w.fanplayr = w.fanplayr || {};
+      w.fanplayr.custom = w.fanplayr.custom || {};
+      var _ = w.fanplayr.custom;
+			w.fp_sales_orders = {
+				accountKey: _.accountKey || '<?php echo $data['accountKey']; ?>',
+				sessionKey: '<?php echo $data['sessionKey']; ?>',
+				userKey: '<?php echo $data['userKey']; ?>',
+				data: {
+					orderId: '<?php echo fanplayr_qr($data['orderId']); ?>',
+					orderNumber: '<?php echo fanplayr_qr($data['orderNumber']); ?>',
+					orderDate: '<?php echo $data['orderDate']; ?>',
+					total: <?php echo $data['total']; ?>,
+					subTotal: <?php echo $data['subTotal']; ?>,
+					discount: <?php echo $data['discount']; ?>,
+					discountCode: '<?php echo fanplayr_qr($data['discountCode']); ?>',
+					currency: '<?php echo $data['currency']; ?>',
+					orderEmail: '<?php echo fanplayr_qr($data['orderEmail']); ?>',
+					firstName: '<?php echo fanplayr_qr($data['firstName']); ?>',
+					lastName: '<?php echo fanplayr_qr($data['lastName']); ?>',
+					customerEmail: '<?php echo fanplayr_qr($data['customerEmail']); ?>',
+					customerId: '<?php echo fanplayr_qr($data['customerId']); ?>',
+					shipping: <?php echo $data['shipping']; ?>,
+					tax: <?php echo $data['tax']; ?>,
+					shopType: '<?php echo $data['shopType']; ?>',
+					version: '<?php echo $data['version']; ?>',
+					products: '<?php echo addslashes(json_encode($data['products'])); ?>',
+          quoteId: '<?php echo $data['quoteId']; ?>',
+          storeDomain: _.storeDomain || ''
+				},
+				errors: '<?php echo addslashes($data['errors']); ?>'
+			};
+			<?php if($data['embedType'] != 3){ // normal, wait for onload or MasterTMS (user only) ?>
+				var js = d.createElement(s);
+				var fjs = d.getElementsByTagName(s)[0];
+				js.async = true;
+				js.src = 'https://d1q7pknmpq2wkm.cloudfront.net/js/my.fanplayr.com/fp_custom_orders.js?' + (new Date().getTime());
+				fjs.parentNode.insertBefore(js, fjs);
+			<?php }else if($data['embedType'] == 3){ ?>
+				// fanplayr sales order waiting for MasterTMS
+			<?php } ?>
+		}
+	})(document, window, 'script')
+</script><?php
+	}else if($data && $data['embedType'] == 6){
+?><script>
+  window.dataLayer = window.dataLayer || [];
+	var dl = window.dataLayer;
+	dl.push({
+    'transactionId': '<?php echo fanplayr_qr($data['orderId']); ?>',
+    'transactionAffiliation': '', // ?
+    'transactionTotal': <?php echo $data['total']; ?>,
+    'transactionTax': <?php echo $data['tax']; ?>,
+    'transactionShipping': <?php echo $data['shipping']; ?>,
+    'transactionPromoCode': '<?php echo fanplayr_qr($data['discountCode']); ?>',
+    'transactionProducts': [<?php
+      $c = 0;
+      foreach($data['products'] as $k => $v){
+        echo "{";
+          echo "'sku': '".fanplayr_qr($v['sku'])."',\n";
+          echo "'id': '".fanplayr_qr($v['id'])."', // FP \n";
+          echo "'name': '".fanplayr_qr($v['name'])."',\n";
+          echo "'category': '".fanplayr_qr($v['catName'])."',\n";
+          //echo "'categoryId': '".fanplayr_qr($v['catId'])."' // FP ,\n";
+          echo "'price': ".$v['price'].",\n";
+          echo "'quantity': ".$v['qty']."\n";
+        echo "}";
+        if ($c < count($data['products']) - 1){
+          echo ",";
+        }
+        $c++;
+      }
+    ?>],
+    'fanplayr': {
+        'accountKey': '<?php echo $data['accountKey']; ?>',
+        'sessionKey': '<?php echo $data['sessionKey']; ?>',
+        'userKey': '<?php echo $data['userKey']; ?>',
+        'order': {
+          'number': '<?php echo fanplayr_qr($data['orderNumber']); ?>',
+          'discount': '<?php echo $data['discount']; ?>',
+          'date': '<?php echo $data['orderDate']; ?>',
+          'currency': '<?php echo $data['currency']; ?>'
+        }
+    }
+	});
+</script><?php
+  }else if($data && $data['embedType'] == 7){
+?><script>
+  window.dataLayer = window.dataLayer || [];
+  var dl = window.dataLayer;
+  dl.push({
+    'ecommerce': {
+      'currencyCode': '<?php echo $data['currency']; ?>',
+      'purchase': {
+        'actionField': {
+          'id': '<?php echo fanplayr_qr($data['orderId']); ?>',
+          'affiliation': '<?php echo fanplayr_qr($data['storeCode']); ?>',
+          'revenue': '<?php echo $data['total']; ?>', // inc tax, shipping, disc
+          'tax':'<?php echo $data['tax']; ?>',
+          'shipping': '<?php echo $data['shipping']; ?>',
+          'coupon': '<?php echo fanplayr_qr($data['discountCode']); ?>'
+        },
+        'products': [<?php
+          $c = 0;
+          foreach($data['products'] as $k => $v){
+            echo "{";
+              echo "'sku': '".fanplayr_qr($v['sku'])."',\n"; // FP
+              echo "'id': '".fanplayr_qr($v['id'])."',\n"; // likely to contain SKU not id
+              echo "'name': '".fanplayr_qr($v['name'])."',\n";
+              echo "'category': '".fanplayr_qr($v['catName'])."',\n";
+              echo "'categoryId': '".fanplayr_qr($v['catId'])."',\n"; // FP
+              echo "'price': '".$v['price']."',\n";
+              echo "'quantity': ".$v['qty'].",\n";
+              echo "'coupon': ''\n";
+            echo "}";
+            if ($c < count($data['products']) - 1){
+              echo ",";
+            }
+            $c++;
+          }
+        ?>]
+      }
+    },
+    'fanplayr': {
+        'accountKey': '<?php echo $data['accountKey']; ?>',
+        'sessionKey': '<?php echo $data['sessionKey']; ?>',
+        'userKey': '<?php echo $data['userKey']; ?>',
+        'order': {
+          'number': '<?php echo fanplayr_qr($data['orderNumber']); ?>',
+          'discount': '<?php echo $data['discount']; ?>',
+          'date': '<?php echo $data['orderDate']; ?>'
+        }
+    }
+  });
+</script><?php
+  }
+?>
+<?php if ($data['gtmContainerId']){ ?>
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=<?php echo $data['gtmContainerId']; ?>"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','<?php echo $data['gtmContainerId']; ?>');</script>
+  <!-- End Google Tag Manager -->
+<?php } ?>

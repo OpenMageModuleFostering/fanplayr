@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	
+	<tabs>
+        <fanplayrsocialcoupons translate="label">
+            <label>Fanplayr</label>
+            <sort_order>99999</sort_order>
+        </fanplayrsocialcoupons>
+    </tabs>
+	
+    <sections>
+        <fanplayrsocialcoupons translate="label">
+            <label><![CDATA[<span id="fanplayr-social-coupons-menu-item" style="padding-left: 0px;"><div style="border-radius: 1px 1px 1px 1px; display: block; float: left; width: 16px; height: 16px; background-color: #f47721; margin-right: 5px;"><div style="color: rgb(255, 255, 255); font-weight: bold; font-family: Arial,Helvetica,sans-serif; margin-left: 5px; font-size: 12px;">F</div></div>Fanplayr Conversions</span>]]></label>
+            <tab>fanplayrsocialcoupons</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+			
+            <groups>
+                <config translate="label">
+                    <label>Fanplayr Account Information</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+						
+        				<secret>
+            				<label>Secret</label>
+            				<frontend_type>hidden</frontend_type>
+            				<sort_order>1</sort_order>
+            				<show_in_default>0</show_in_default>
+            				<show_in_website>0</show_in_website>
+            				<show_in_store>0</show_in_store>    
+        				</secret>
+						
+        				<acc_key>
+            				<label>Acc Key</label>
+            				<frontend_type>hidden</frontend_type>
+            				<sort_order>1</sort_order>
+            				<show_in_default>0</show_in_default>
+            				<show_in_website>0</show_in_website>
+            				<show_in_store>0</show_in_store>    
+        				</acc_key>
+						
+        				<installed>
+            				<label>Fanplayr Install</label>
+            				<frontend_type>button</frontend_type>
+            				<frontend_model>Fanplayr_Socialcoupons_Block_Adminhtml_System_Config_Form_Field_Installhelper</frontend_model>
+            				<sort_order>3</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>0</show_in_website>
+            				<show_in_store>0</show_in_store>
+        				</installed>
+						
+    				</fields>
+                </config>
+
+            </groups>
+			
+        </fanplayrsocialcoupons>
+    </sections>
+	
+</config>

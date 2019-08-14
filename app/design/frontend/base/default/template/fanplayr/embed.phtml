@@ -1,0 +1,133 @@
+<?php
+	try {
+		$widgetKeys = json_decode($widgetKeys);
+	}catch(Exception $e) {
+	}
+
+	try {
+		$widgetKeysGenius = json_decode($widgetKeysGenius);
+	}catch(Exception $e) {
+	}
+
+	if (!is_array($widgetKeys))
+		$widgetKeys = array();
+
+	if (!is_array($widgetKeysGenius))
+		$widgetKeysGenius = array();
+
+	foreach($widgetKeys as $k){ ?>
+		<?php if(!$noTags){ ?><script><?php } ?>
+		window.fplr = (function(d, s, key) {
+		var f, js = d.createElement(s), fjs = d.getElementsByTagName(s)[0]; js.async = true;
+		js.src = '//my.fanplayr.com/website/<?=$k?>/?v=3'; fjs.parentNode.insertBefore(js, fjs);
+		return window.fplr || (f = { _r: [], ready: function(a){ f._r.push(a) }, setSessionId: function(a, b){ f._s = a; f._l = b; if (b && a) setSessionCookie('fplr_magento_sess', a, 0); else if (b && !a) setSessionCookie('fplr_magento_sess', '', -1); } });
+		})(document, 'script');
+
+		fplr.ready(function(){});
+
+		function setSessionCookie(cookieName,cookieValue, expires) {
+			document.cookie = cookieName+"="+escape(cookieValue)+ ";expires=" + expires + ";path=/";
+		}
+		<?php if(!$noTags){ ?></script><?php } ?>
+
+	<?php } ?>
+
+	<?php if(!$noTags){ ?><script><?php }
+		if ( !function_exists('fanplayr_qr') ){
+			function fanplayr_qr($s){
+				$s = str_replace("'", "\'", $s);
+				$s = str_replace("<", "&lt;", $s);
+				$s = str_replace(">", "&gt;", $s);
+				return $s;
+			}
+		}
+	?>
+	<?php if ($embedType != 6){ ?>
+		(function(d, w, s){
+			var l = function(){
+				var f = w.fanplayr = w.fanplayr || { _i:[] };
+				f.custom = f.custom || {};
+				var _ = f.custom;
+
+				f._i.push({
+					type: 'st',
+					accountKey: _.accountKey || '<?php echo $accountKey; ?>',
+					applyToCartUrl: encodeURIComponent(_.applyToCartUrl || '<?php echo $applyToCartUrl; ?>'),
+					deputizeUrl: encodeURIComponent(_.deputizeUrl || _.depitizeUrl || '<?php echo $deputizeUrl; ?>'),
+					sessionCouponUrl: encodeURIComponent(_.sessionCouponUrl || '<?php echo $sessionCouponUrl; ?>'),
+					storeDomain: _.storeDomain || '',
+					data: {
+						lineItemCount: <?php echo $data['lineItemCount']; ?>,
+						numItems: <?php echo $data['numItems']; ?>,
+						couponCode: '<?php echo fanplayr_qr($data['couponCode']); ?>',
+						total: <?php echo $data['total']; ?>,
+						subTotal: <?php echo $data['subTotal']; ?>,
+						discount: <?php echo $data['discount']; ?>,
+						pageType: '<?php echo fanplayr_qr($data['pageType']); ?>',
+						categoryId: '<?php echo fanplayr_qr($data['categoryId']); ?>',
+						categoryName: encodeURIComponent('<?php echo fanplayr_qr($data['categoryName']); ?>'),
+						productId: '<?php echo fanplayr_qr($data['productId']); ?>',
+						productName: encodeURIComponent('<?php echo fanplayr_qr($data['productName']); ?>'),
+
+						productPrice: encodeURIComponent('<?php echo fanplayr_qr($data['productPrice']) ?>'),
+						productSku: encodeURIComponent('<?php echo fanplayr_qr($data['productSku']) ?>'),
+						productImage: encodeURIComponent('<?php echo fanplayr_qr($data['productImage']) ?>'),
+						productUrl: encodeURIComponent('<?php echo fanplayr_qr($data['productUrl']) ?>'),
+
+						currency: '<?php echo $data['currency']; ?>',
+						customerEmail: '<?php echo fanplayr_qr($data['customerEmail']); ?>',
+						customerId: '<?php echo fanplayr_qr($data['customerId']); ?>',
+						customerGroup: '<?php echo fanplayr_qr($data['customerGroup']); ?>',
+						customerSegment: '<?php echo fanplayr_qr($data['customerSegment']); ?>',
+						shopType: '<?php echo $data['shopType']; ?>',
+						version: <?php echo $data['version']; ?>,
+						products: '<?php echo $data['products']; ?>',
+
+						quoteId: '<?php echo $data['quoteId']; ?>'
+					},
+					custom_data: w.fanplayrCustomData || {}
+				});
+				var js = d.createElement(s);
+				var fjs = d.getElementsByTagName(s)[0];
+				js.async = true;
+				js.src = 'https://d1q7pknmpq2wkm.cloudfront.net/js/my.fanplayr.com/fp_smart.js?' +
+				(new Date().getTime()); fjs.parentNode.insertBefore(js, fjs);
+			};
+			<?php if ($embedType == 5){ /* direct lazy loading */ ?>
+				if (window.addEventListener){ window.addEventListener('load', l, false); }
+				else if (window.attachEvent){ window.attachEvent('onload', l); }
+			<?php }else{ ?>
+				l();
+			<?php } ?>
+	})(document, window, 'script');
+	<?php }else if($embedType == 6 || $embedType == 7){ ?>
+	  window.dataLayer = window.dataLayer || [];
+	  var dl = window.dataLayer;
+
+	  dl.push({
+	  	'event': 'fanplayr.ready',
+	  	'pageType': '<?php echo fanplayr_qr($data['pageType']); ?>',
+	    'fanplayr': {
+	        'accountKey': '<?php echo $accountKey; ?>',
+					'applyToCartUrl': encodeURIComponent('<?php echo $applyToCartUrl; ?>'),
+					'depitizeUrl': encodeURIComponent('<?php echo $depitizeUrl; ?>'),
+
+						'couponCode': '<?php echo fanplayr_qr($data['couponCode']); ?>',
+						'total': <?php echo $data['total']; ?>,
+						'subTotal': <?php echo $data['subTotal']; ?>,
+						'discount': <?php echo $data['discount']; ?>,
+						'categoryId': '<?php echo fanplayr_qr($data['categoryId']); ?>',
+						'categoryName': encodeURIComponent('<?php echo fanplayr_qr($data['categoryName']); ?>'),
+						'productId': '<?php echo fanplayr_qr($data['productId']); ?>',
+						'productName': encodeURIComponent('<?php echo fanplayr_qr($data['productName']); ?>'),
+						'currency': '<?php echo $data['currency']; ?>',
+						'customerEmail': '<?php echo fanplayr_qr($data['customerEmail']); ?>',
+						'customerId': '<?php echo fanplayr_qr($data['customerId']); ?>',
+						'customerGroup': '<?php echo fanplayr_qr($data['customerGroup']); ?>',
+						'customerSegment': '<?php echo fanplayr_qr($data['customerSegment']); ?>',
+
+						'products': '<?php echo $data['products']; ?>'
+	    }
+	   });
+	<?php } ?>
+	<?php if(!$noTags){ ?></script><?php } ?>

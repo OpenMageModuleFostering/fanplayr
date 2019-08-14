@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Fanplayr",
+    "type": "magento-module",
+    "license": "Fanplayr-License",
+    "homepage": "",
+    "description": "Fanplayr Conversions enables Magento merchants to harness an automated solution to track, analyze and intelligently target your visitors & convert them to loyal customers.",
+    "authors": [
+    {
+        "name": "Tarwin Stroh-Spijer",
+        "email": "tarwin@fanplayr.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

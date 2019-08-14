@@ -1,0 +1,57 @@
+<script>
+<?php if($embedType != 2 && $embedType != 3){ ?>
+	(function(d, w, s) {
+		var f = function(){
+
+			w.fanplayr = w.fanplayr || { _i:[] };
+			w.fanplayr.custom = w.fanplayr.custom || {};
+			var _ = w.fanplayr.custom;
+
+			var js = d.createElement(s),
+				fjs  = d.getElementsByTagName(s)[0];
+
+			js.async = true;
+
+			<?php if ($customEmbedUrlPost){ ?>
+				var url = _.embedUrl || '<?php echo $shopUrl; ?>';
+				url += '<?php echo $customEmbedUrlPost; ?>';
+				url = url.replace('%tt', '<?php echo urlencode($tt); ?>');
+				url = url.replace('%tp', '<?php echo urlencode($tp); ?>');
+				url = url.replace('%tc', '<?php echo urlencode($tc); ?>');
+				url = url.replace('%tpn', '<?php echo urlencode($tpn); ?>');
+				url = url.replace('%tcn', '<?php echo urlencode($tcn); ?>');
+
+				url = url.replace('%tpp', '<?php echo urlencode($tpp); ?>');
+				url = url.replace('%tps', '<?php echo urlencode($tps); ?>');
+				url = url.replace('%tpi', '<?php echo urlencode($tpi); ?>');
+				url = url.replace('%tpu', '<?php echo urlencode($tpu); ?>');
+
+				url = url.replace('%rnd', (new Date().getTime()));
+				js.src = url;
+			<?php }else{ ?>
+				js.src = (_.embedUrl || '<?php echo $shopUrl; ?>') + 'fanplayr/ajax/getEmbedJs/?tt=<?php echo urlencode($tt); ?>&tp=<?php echo urlencode($tp); ?>&tc=<?php echo urlencode($tc); ?>&tpn=<?php echo urlencode($tpn); ?>&tcn=<?php echo urlencode($tcn); ?>&tpp=<?php echo urlencode($tpp); ?>&tps=<?php echo urlencode($tps); ?>&tpi=<?php echo urlencode($tpi); ?>&tpu=<?php echo urlencode($tpu); ?>&' + (new Date().getTime());
+
+			<?php } ?>
+			fjs.parentNode.insertBefore(js, fjs);
+		};
+		<?php if ($embedType == 1){ ?>
+			if (window.addEventListener){ window.addEventListener('load', f, false); }
+			else if (window.attachEvent){ window.attachEvent('onload', f); }
+		<?php }else{ ?>
+			f();
+		<?php } ?>
+	})(document, window, 'script');
+<?php }else if($embedType == 2 || $embedType == 3){ // master TMS ?>
+	window.fanplayrTms = {};
+	window.fanplayrTms.pageType = '<?php echo urlencode($tt); ?>';
+	window.fanplayrTms.productId = '<?php echo urlencode($tp); ?>';
+	window.fanplayrTms.categoryId = '<?php echo urlencode($tc); ?>';
+	window.fanplayrTms.productName = '<?php echo urlencode($tpn)?>';
+	window.fanplayrTms.categoryName = '<?php echo urlencode($tcn)?>';
+
+	window.fanplayrTms.productPrice = '<?php echo urlencode($tpp)?>';
+	window.fanplayrTms.productSku = '<?php echo urlencode($tps)?>';
+	window.fanplayrTms.productImage = '<?php echo urlencode($tpi)?>';
+	window.fanplayrTms.productUrl = '<?php echo urlencode($tpu)?>';
+<?php } ?>
+</script>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Fanplayr_Socialcoupons>
+            <active>true</active>
+            <codePool>community</codePool>
+			<version>1.0.75</version>
+        </Fanplayr_Socialcoupons>
+    </modules>
+</config>

@@ -203,7 +203,19 @@
 
 			$shopUrl = $protocol . ':' . $shopUrl;
 
-			header('Location: ' . $shopUrl . 'checkout/cart/');
+			$utmTracking = '';
+			if ($this->hasSucceeded) {
+				// get UTM apply cart tracking
+				$couponApplyUtm = Mage::getStoreConfig('fanplayrsocialcoupons/config/coupon_apply_utm');
+
+				if ($couponApplyUtm) {
+					$utmTracking = '?' . $couponApplyUtm;
+				}
+
+			}
+
+			header('Location: ' . $shopUrl . 'checkout/cart/' . $utmTracking);
+
 			exit(1);
 		}
 

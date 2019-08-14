@@ -100,6 +100,7 @@ class Fanplayr_Socialcoupons_Block_Adminhtml_System_Config_Form_Field_Installhel
 		$useTbuy = htmlspecialchars(Mage::getStoreConfig('fanplayrsocialcoupons/config/use_tbuy'));
 
 		$disableUserIdentifyTracking = htmlspecialchars(Mage::getStoreConfig('fanplayrsocialcoupons/config/disable_user_identity_tracking'));
+		$couponApplyUtm = htmlspecialchars(Mage::getStoreConfig('fanplayrsocialcoupons/config/coupon_apply_utm'));
 
 		// have to use this variable for backwards compatability ...
 		$currentEmbedType = htmlspecialchars(Mage::getStoreConfig('fanplayrsocialcoupons/config/wait_for_onload'));
@@ -237,6 +238,8 @@ class Fanplayr_Socialcoupons_Block_Adminhtml_System_Config_Form_Field_Installhel
 					<tr><td><label title="Set to '1' to disable">Disable TBuy Discounts</label></td><td><input type="text" id="fanplayrsocialcoupons-console-usetbuy" name="fanplayrsocialcoupons-console-usetbuy" value="{$useTbuy}" /></td></tr>
 
 					<tr><td><label title="Set to '1' to disable">Disable User Identity Tracking</label></td><td><input type="text" id="fanplayrsocialcoupons-disableuseridentitytracking" name="fanplayrsocialcoupons-disableuseridentitytracking" value="{$disableUserIdentifyTracking}" /></td></tr>
+
+					<tr><td><label title="If set, the string will be added to the cart URL after a '?'. ie 'utm_source=Shop&utm_medium=banner&utm_campaign=FanPlayr'">Apply to Cart UTM</label></td><td><input type="text" id="fanplayrsocialcoupons-couponapplyutm" name="fanplayrsocialcoupons-couponapplyutm" value="{$couponApplyUtm}" /></td></tr>
 
 					<tr><td colspan="2"><a href="#" id="fanplayrsocialcoupons-console-hide" onclick="Fanplayr.console.hide(); return false;">Hide</a></td></tr>
 

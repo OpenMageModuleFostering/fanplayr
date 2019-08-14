@@ -318,7 +318,8 @@ if (typeof Array.prototype.map !== "function") {
 					gtmcontainerid: $('#fanplayrsocialcoupons-console-gtmcontainerid').val(),
 					usetbuy: $('#fanplayrsocialcoupons-console-usetbuy').val(),
 					disableuseridentitytracking: $('#fanplayrsocialcoupons-disableuseridentitytracking').val(),
-					couponapplyutm: $('#fanplayrsocialcoupons-couponapplyutm').val()
+					couponapplyutm: $('#fanplayrsocialcoupons-couponapplyutm').val(),
+					disableatcempty: $('#fanplayrsocialcoupons-disableatcempty').val()
 				})
 					.success(function(result) {
 						Fanplayr.isWorking = false;

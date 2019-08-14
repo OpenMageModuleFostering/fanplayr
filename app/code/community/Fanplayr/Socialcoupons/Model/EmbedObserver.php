@@ -163,7 +163,6 @@
 					$block->assign('widgetKeysGenius', Mage::getStoreConfig('fanplayrsocialcoupons/config/widget_keys_genius'));
 					$block->assign('accountKey', Mage::getStoreConfig('fanplayrsocialcoupons/config/acc_key'));
 
-					$block->assign('applyToCartUrl', $shopUrl . 'fanplayr/coupon/add/code/%c/');
 					$block->assign('deputizeUrl', $shopUrl . 'fanplayr/coupon/deputize/a/%a/d/%d/');
 					$block->assign('sessionCouponUrl', $shopUrl . 'fanplayr/coupon/session/code/%c/');
 
@@ -181,6 +180,14 @@
 						$currentProductImage,
 						$currentProductUrl
 					);
+
+					$disableAtcEmpty = htmlspecialchars(Mage::getStoreConfig('fanplayrsocialcoupons/config/disable_atc_empty'));
+
+					if ( $data['lineItemCount'] === 0 && $disableAtcEmpty === '1' ) {
+						$block->assign('applyToCartUrl', '');
+					}else{
+						$block->assign('applyToCartUrl', $shopUrl . 'fanplayr/coupon/add/code/%c/');
+					}
 
 					$block->assign('data', $data);
 				}

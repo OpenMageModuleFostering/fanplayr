@@ -205,6 +205,11 @@
 			}
 		}
 
+		private function debug($str) {
+			// turn on to debug orders
+			// Mage::log($str, null, 'fanplayr.log');
+		}
+
 		// ------------------------------------------------------------------------------------------------------
 		// utils / helpers
 
@@ -226,10 +231,16 @@
 
 			$products = array();
 
+			$this->debug('$useOldVersion: ' . print_r($useOldVersion, true));
+
 			// have to get the last order in a stupid way for some reason for 1.4 ...
 			if ($useOldVersion) {
 
+				$this->debug('Using old version ...');
+
 				$lastOrderId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+
+				$this->debug('$lastOrderId: ' . $lastOrderId);
 
 				// seriosuly, why would THIS be the way to do it? fail!
 				$orderCollection = Mage::getModel('sales/order')->getCollection()
@@ -245,6 +256,8 @@
 				$quoteId = $order->getQuoteId();
 
 				$data = $order->getData();
+
+				$this->debug('$data: ' . print_r($data, true));
 
 				// have to be careful here because some versions miss some variables ...
 				$orderEmail = array_key_exists('customer_email', $data) ? $data['customer_email'] : '';
@@ -267,6 +280,9 @@
 				$products = $this->getProductsFromOrder($order);
 
 			} else {
+
+				$this->debug('Using new method...');
+
 				$order = Mage::getModel('sales/order')->load($lastOrderId);
 
 				$orderId = $order->getId();
@@ -325,6 +341,8 @@
 				}
 
 				$products = $this->getProductsFromOrder($order);
+
+				$this->debug('End of new method...');
 			}
 
 			$storeCode = Mage::app()->getStore()->getCode();
@@ -338,6 +356,28 @@
 				$firstName = '';
 				$lastName = '';
 			}
+
+			$this->debug('$orderId: ' . print_r($orderId, true));
+			$this->debug('$orderNumber: ' . print_r($orderNumber, true));
+			$this->debug('$orderDate: ' . print_r($orderDate, true));
+			$this->debug('$orderTotal: ' . print_r($orderTotal, true));
+			$this->debug('$orderSubTotal: ' . print_r($orderSubTotal, true));
+			$this->debug('$discountAmount: ' . print_r($discountAmount, true));
+			$this->debug('$discountCode: ' . print_r($discountCode, true));
+			$this->debug('$currency: ' . print_r($currency, true));
+			$this->debug('$orderEmail: ' . print_r($orderEmail, true));
+			$this->debug('$firstName: ' . print_r($firstName, true));
+			$this->debug('$lastName: ' . print_r($lastName, true));
+			$this->debug('$customerEmail: ' . print_r($customerEmail, true));
+			$this->debug('$customerId: ' . print_r($customerId, true));
+			$this->debug('$shipping: ' . print_r($shipping, true));
+			$this->debug('$tax: ' . print_r($tax, true));
+			$this->debug('$products: ' . print_r($products, true));
+			$this->debug('$storeCode: ' . print_r($storeCode, true));
+			$this->debug('$gtmContainerId: ' . print_r($gtmContainerId, true));
+			$this->debug('$quoteId: ' . print_r($quoteId, true));
+
+			$this->debug('----------------------------------------');
 
 			return array(
 				'orderId' => $orderId,

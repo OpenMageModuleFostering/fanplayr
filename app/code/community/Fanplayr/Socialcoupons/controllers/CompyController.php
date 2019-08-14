@@ -61,6 +61,7 @@
 
 			$this->updateConfig('fanplayrsocialcoupons/config/disable_user_identity_tracking', '', false);
 			$this->updateConfig('fanplayrsocialcoupons/config/coupon_apply_utm', '', false);
+			$this->updateConfig('fanplayrsocialcoupons/config/disable_atc_empty', '', false);
 
 			//$this->addNotice('Fanplayr details removed.');
 			echo $this->jsonMessage(false, 'Fanplayr unlink successful".');
@@ -145,6 +146,7 @@
 
 			$this->updateConfig('fanplayrsocialcoupons/config/disable_user_identity_tracking', array_key_exists('disableuseridentitytracking', $p) ? $p['disableuseridentitytracking'] : '', true);
 			$this->updateConfig('fanplayrsocialcoupons/config/coupon_apply_utm', array_key_exists('couponapplyutm', $p) ? $p['couponapplyutm'] : '', true);
+			$this->updateConfig('fanplayrsocialcoupons/config/disable_atc_empty', array_key_exists('disableatcempty', $p) ? $p['disableatcempty'] : '', true);
 
 			//$this->addNotice('Fanplayr details updated.');
 			echo $this->jsonMessage(false, 'Fanplayr details updated".');

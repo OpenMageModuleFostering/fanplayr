@@ -316,7 +316,8 @@ if (typeof Array.prototype.map !== "function") {
 					customembedurl: $('#fanplayrsocialcoupons-console-customembedurl').val(),
 					customembedurlpost: $('#fanplayrsocialcoupons-console-customembedurlpost').val(),
 					gtmcontainerid: $('#fanplayrsocialcoupons-console-gtmcontainerid').val(),
-					usetbuy: $('#fanplayrsocialcoupons-console-usetbuy').val()
+					usetbuy: $('#fanplayrsocialcoupons-console-usetbuy').val(),
+					disableuseridentitytracking: $('#fanplayrsocialcoupons-disableuseridentitytracking').val(),
 				})
 					.success(function(result) {
 						Fanplayr.isWorking = false;

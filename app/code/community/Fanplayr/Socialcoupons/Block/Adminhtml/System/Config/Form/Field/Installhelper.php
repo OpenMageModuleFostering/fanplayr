@@ -99,6 +99,8 @@ class Fanplayr_Socialcoupons_Block_Adminhtml_System_Config_Form_Field_Installhel
 
 		$useTbuy = htmlspecialchars(Mage::getStoreConfig('fanplayrsocialcoupons/config/use_tbuy'));
 
+		$disableUserIdentifyTracking = htmlspecialchars(Mage::getStoreConfig('fanplayrsocialcoupons/config/disable_user_identity_tracking'));
+
 		// have to use this variable for backwards compatability ...
 		$currentEmbedType = htmlspecialchars(Mage::getStoreConfig('fanplayrsocialcoupons/config/wait_for_onload'));
 		if (!$currentEmbedType) $currentEmbedType = '0';
@@ -233,6 +235,8 @@ class Fanplayr_Socialcoupons_Block_Adminhtml_System_Config_Form_Field_Installhel
 					<tr><td><label>GTM Container Public ID</label></td><td><input type="text" id="fanplayrsocialcoupons-console-gtmcontainerid" name="fanplayrsocialcoupons-console-gtmcontainerid" value="{$gtmContainerId}" /></td></tr>
 
 					<tr><td><label title="Set to '1' to disable">Disable TBuy Discounts</label></td><td><input type="text" id="fanplayrsocialcoupons-console-usetbuy" name="fanplayrsocialcoupons-console-usetbuy" value="{$useTbuy}" /></td></tr>
+
+					<tr><td><label title="Set to '1' to disable">Disable User Identity Tracking</label></td><td><input type="text" id="fanplayrsocialcoupons-disableuseridentitytracking" name="fanplayrsocialcoupons-disableuseridentitytracking" value="{$disableUserIdentifyTracking}" /></td></tr>
 
 					<tr><td colspan="2"><a href="#" id="fanplayrsocialcoupons-console-hide" onclick="Fanplayr.console.hide(); return false;">Hide</a></td></tr>
 
@@ -409,7 +413,7 @@ EOT;
 			}
 		}
 
-		$showConsoleHtml = '<div id="fanplayr-show-console"><a href="javascript:Fanplayr.console.show();" style="position: absolute;top: 207px;right: 80px;font-size: 11px;color: #fff !important;">Show Fanplayr Console</a></div>';
+		$showConsoleHtml = '<div id="fanplayr-show-console"><a href="javascript:Fanplayr.console.show();" style="margin-bottom: 15px; display: block;">Show Fanplayr Console</a></div>';
 
 		//
 		// Return

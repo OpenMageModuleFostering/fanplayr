@@ -167,6 +167,16 @@
 						$params['userkey'] = '';
 					}
 
+					// disable user identity tracking
+					$disableUserIdentityTracking = !!Mage::getStoreConfig('fanplayrsocialcoupons/config/disable_user_identity_tracking');
+					if ( $disableUserIdentityTracking ) {
+						$customerEmail = '';
+						$params['email'] = '';
+						$params['customeremail'] = '';
+						$params['firstname'] = '';
+						$params['lastname'] = '';
+					}
+
 					// now if we set a URL call it!
 					if ($url) {
 
@@ -319,6 +329,15 @@
 
 			$storeCode = Mage::app()->getStore()->getCode();
 			$gtmContainerId = Mage::getStoreConfig('fanplayrsocialcoupons/config/gtm_container_id');
+
+			// disable user identity tracking
+			$disableUserIdentityTracking = !!Mage::getStoreConfig('fanplayrsocialcoupons/config/disable_user_identity_tracking');
+			if ( $disableUserIdentityTracking ) {
+				$customerEmail = '';
+				$orderEmail = '';
+				$firstName = '';
+				$lastName = '';
+			}
 
 			return array(
 				'orderId' => $orderId,

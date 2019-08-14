@@ -318,6 +318,12 @@
 			$storeCode = Mage::app()->getStore()->getCode();
 			$gtmContainerId = Mage::getStoreConfig('fanplayrsocialcoupons/config/gtm_container_id');
 
+			// disable user identity tracking
+			$disableUserIdentityTracking = !!Mage::getStoreConfig('fanplayrsocialcoupons/config/disable_user_identity_tracking');
+			if ( $disableUserIdentityTracking ) {
+				$custEmail = '';
+			}
+
 			$data = array(
 				'atCart' => $atCart,
 				'lineItemCount' => (int)$itemCount,

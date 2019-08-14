@@ -4,7 +4,7 @@
         <Fanplayr_Socialcoupons>
             <active>true</active>
             <codePool>community</codePool>
-			<version>1.0.77</version>
+			<version>1.0.79</version>
         </Fanplayr_Socialcoupons>
     </modules>
 </config>
